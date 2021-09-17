@@ -9,7 +9,7 @@ const testCheck = (req: Request, res: Response, next: NextFunction) => {
     });
 };
 
-const getAllProviders = async (req: Request, res: Response, next: NextFunction) => {
+const getAllProviders = (req: Request, res: Response, next: NextFunction) => {
     // await Provider.find()
     //     .exec()
     //     .then((providers) => {
@@ -28,54 +28,63 @@ const getAllProviders = async (req: Request, res: Response, next: NextFunction) 
 
     let providers = new Promise<any[]>(resolve => resolve(Provider.find()))
 
-    providers.then((providers) => {
-        return res.status(200).json({
-            message: 'All providers successfully fetched',
-            count: providers.length,
-            providers
-        });
-    }, (err) => {
-        return res.status(500).json({
-            message: err.message,
-            err
-        });
-    })
+    providers.then(
+        (providers) => {
+            return res.status(200).json({
+                message: 'All providers successfully fetched',
+                count: providers.length,
+                providers
+            });
+        },
+        (err) => {
+            return res.status(500).json({
+                message: err.message,
+                err
+            });
+        }
+    );
 };
 
-const getProviderByID = async (req: Request, res: Response, next: NextFunction) => {
-    await Provider.findOne({ _id: req.params.id })
-        .exec()
-        .then((provider) => {
+const getProviderByID = (req: Request, res: Response, next: NextFunction) => {
+    let provider = new Promise<object>((resolve) => resolve(Provider.findOne({ _id: req.params.id })));
+    provider.then(
+        (provider) => {
+            if (!provider) {
+                return res.status(404).json({
+                    message: 'Provider does not exist'
+                });
+            }
             return res.status(200).json({
                 message: 'Provider successfully fetched',
                 provider
             });
-        })
-        .catch((err) => {
+        },
+        (err) => {
             return res.status(500).json({
                 message: err.message,
                 err
             });
-        });
+        }
+    );
 };
 
-const getOneProvider = async (req: Request, res: Response, next: NextFunction) => {
-    await Provider.find()
-        .exec()
-        .then((providers) => {
-            return res.status(200).json({
-                message: 'All providers successfully fetched',
-                count: providers.length,
-                providers: providers
-            });
-        })
-        .catch((err) => {
-            return res.status(500).json({
-                message: err.message,
-                err
-            });
-        });
-};
+// const getOneProvider = (req: Request, res: Response, next: NextFunction) => {
+//     await Provider.find()
+//         .exec()
+//         .then((providers) => {
+//             return res.status(200).json({
+//                 message: 'All providers successfully fetched',
+//                 count: providers.length,
+//                 providers: providers
+//             });
+//         })
+//         .catch((err) => {
+//             return res.status(500).json({
+//                 message: err.message,
+//                 err
+//             });
+//         });
+// };
 
 const createProvider = (req: Request, res: Response, next: NextFunction) => {
     let { name } = req.body;
@@ -84,58 +93,123 @@ const createProvider = (req: Request, res: Response, next: NextFunction) => {
         name
     });
 
-    return provider
-        .save()
-        .then((provider) => {
+    // return provider
+    //     .save()
+    //     .then((provider) => {
+    //         return res.status(201).json({
+    //             message: 'Provider successfully created',
+    //             provider
+    //         });
+    //     })
+    //     .catch((err) => {
+    //         return res.status(500).json({
+    //             message: err.message,
+    //             err
+    //         });
+    //     });
+    let newProvider = new Promise<object>((resolve) => resolve(provider.save()));
+
+    newProvider.then(
+        (provider) => {
             return res.status(201).json({
                 message: 'Provider successfully created',
                 provider
             });
-        })
-        .catch((err) => {
+        },
+        (err) => {
             return res.status(500).json({
                 message: err.message,
                 err
             });
-        });
+        }
+    );
 };
 
-const updateProvider = async (req: Request, res: Response, next: NextFunction) => {
-    const { name } = req.body
-    await Provider.findOneAndUpdate({ _id: req.params.id}, { name })
-        .exec()
-        .then((provider) => {
-            Provider.findOne({ _id: req.params.id })
+const updateProvider = (req: Request, res: Response, next: NextFunction) => {
+    let { name } = req.body;
+
+    let provider = new Promise<object>((resolve) => resolve(Provider.findOneAndUpdate({ _id: req.params.id }, { name })));
+    let updatedProvider = new Promise<object>((resolve) => resolve(Provider.findOne({ _id: req.params.id })));
+    updatedProvider.then(
+        (provider) => {
+            if (!provider) {
+                return res.status(404).json({
+                    message: 'Provider does not exist'
+                });
+            }
             return res.status(200).json({
-                message: 'All providers successfully fetched',
+                message: 'Provider successfully updated',
                 provider
             });
-        })
-        .catch((err) => {
+        },
+        (err) => {
             return res.status(500).json({
                 message: err.message,
                 err
             });
-        });
+        }
+    );
 };
 
-const deleteProvider = async (req: Request, res: Response, next: NextFunction) => {
-    await Provider.find()
-        .exec()
-        .then((providers) => {
+const deleteProvider = (req: Request, res: Response, next: NextFunction) => {
+    let provider = new Promise<object>((resolve) => resolve(Provider.findOneAndDelete({ _id: req.params.id })));
+    provider.then(
+        (provider) => {
+            if (!provider) {
+                return res.status(404).json({
+                    message: 'Provider does not exist'
+                });
+            }
             return res.status(200).json({
-                message: 'All providers successfully fetched',
-                count: providers.length,
-                providers: providers
+                message: 'Provider successfully deleted',
+                provider: null
             });
-        })
-        .catch((err) => {
+        },
+        (err) => {
             return res.status(500).json({
                 message: err.message,
                 err
             });
-        });
+        }
+    );
 };
+
+// const updateProvider = (req: Request, res: Response, next: NextFunction) => {
+//     const { name } = req.body
+//     await Provider.findOneAndUpdate({ _id: req.params.id}, { name })
+//         .exec()
+//         .then((provider) => {
+//             Provider.findOne({ _id: req.params.id })
+//             return res.status(200).json({
+//                 message: 'All providers successfully fetched',
+//                 provider
+//             });
+//         })
+//         .catch((err) => {
+//             return res.status(500).json({
+//                 message: err.message,
+//                 err
+//             });
+//         });
+// };
+
+// const deleteProvider = (req: Request, res: Response, next: NextFunction) => {
+//     await Provider.find()
+//         .exec()
+//         .then((providers) => {
+//             return res.status(200).json({
+//                 message: 'All providers successfully fetched',
+//                 count: providers.length,
+//                 providers: providers
+//             });
+//         })
+//         .catch((err) => {
+//             return res.status(500).json({
+//                 message: err.message,
+//                 err
+//             });
+//         });
+// };
 
 export default {
     testCheck,

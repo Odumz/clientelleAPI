@@ -57,7 +57,7 @@ router.get('/', (req, res) => {
 
 // error handling
 router.use((req, res, next) => {
-    const error = new Error('Not Found');
+    const error = new Error('the route does not exist');
 
     return res.status(404).json({
         message: error.message

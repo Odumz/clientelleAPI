@@ -11,4 +11,8 @@ router.get('/:id', controller.getClientByID);
 
 router.post('/add', controller.createClient);
 
+router.put('/edit/:id', controller.updateClient);
+
+router.delete('/delete/:id', controller.deleteClient);
+
 export = router;

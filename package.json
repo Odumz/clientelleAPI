@@ -2,7 +2,7 @@
   "name": "clientelle",
   "version": "1.0.0",
   "description": "clientelle application - to manage clients and providers",
-  "main": "index.js",
+  "main": "src/app.ts",
   "scripts": {
     "dev": "nodemon src/app.ts",
     "build": "rm -rf dist/ && prettier --write src/ && tsc",

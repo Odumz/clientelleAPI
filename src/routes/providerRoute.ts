@@ -11,4 +11,8 @@ router.get('/:id', controller.getProviderByID);
 
 router.post('/add', controller.createProvider);
 
+router.put('/edit/:id', controller.updateProvider);
+
+router.delete('/delete/:id', controller.deleteProvider);
+
 export = router;
