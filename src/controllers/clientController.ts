@@ -1,13 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import Client from '../models/client';
-
-// interface Client {
-//     _id: Number;
-//     name: String;
-//     email: String;
-//     phone: Number;
-//     provider: Array<object>;
-// }
+import ApiError from '@src/helpers/ApiError';
+import clientService from '../services/clientService';
+import catchAsync from '../helpers/catchAsync';
 
 const testCheck = (req: Request, res: Response, next: NextFunction) => {
     return res.status(200).json({
@@ -93,34 +88,43 @@ const getClientByID = (req: Request, res: Response, next: NextFunction) => {
         );
 };
 
-const createClient = (req: Request, res: Response, next: NextFunction) => {
-    let { name, email, phone, provider } = req.body;
+const createClient = catchAsync(async (req: Request, res: Response) => {
+    const client = await clientService.create(req);
 
-    const client = new Client({
-        name,
-        email,
-        phone,
-        provider
-    })
+    res.status(201).send({
+        message: 'Client successfully created',
+        client
+    });
+});
 
-    let newClient = new Promise<object>((resolve) => resolve(client.save()));
+// const createClient = (req: Request, res: Response, next: NextFunction) => {
+    // let { name, email, phone, provider } = req.body;
 
-    newClient
-        .then(
-            (client) => {
-                return res.status(201).json({
-                    message: 'Client successfully created',
-                    client
-                });
-            },
-            (err) => {
-                return res.status(500).json({
-                    message: err.message,
-                    err
-                });
-            }
-        );
-};
+    // const client = new Client({
+    //     name,
+    //     email,
+    //     phone,
+    //     provider
+    // })
+
+    // let newClient = new Promise<object>((resolve) => resolve(client.save()));
+
+    // newClient
+    //     .then(
+    //         (client) => {
+    //             return res.status(201).json({
+    //                 message: 'Client successfully created',
+    //                 client
+    //             });
+    //         },
+    //         (err) => {
+    //             return res.status(500).json({
+    //                 message: err.message,
+    //                 err
+    //             });
+    //         }
+    //     );
+// };
 
 const updateClient = (req: Request, res: Response, next: NextFunction) => {
     let { name, email, phone, provider } = req.body;

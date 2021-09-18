@@ -1,12 +1,12 @@
 import http from 'http';
-import express from 'express';
+import express, { Request, Response, NextFunction} from 'express';
 import logging from './config/logging';
 import config from './config/config';
 import routes from './routes';
 import mongoose from 'mongoose';
 
 const NAMESPACE = 'api';
-const router = express();
+const app = express();
 
 // connect to database
 mongoose
@@ -19,7 +19,7 @@ mongoose
     });
 
 // Configure logger
-router.use((req, res, next) => {
+app.use((req: Request, res: Response, next: NextFunction) => {
     logging.info(NAMESPACE, `METHOD - [${req.method}], URL - [${req.url}], IP - [${req.socket.remoteAddress}]`);
 
     res.on('finish', () => {
@@ -30,11 +30,11 @@ router.use((req, res, next) => {
 });
 
 // parse the request body
-router.use(express.json());
-router.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 // rules of the api
-router.use((req, res, next) => {
+app.use((req: Request, res: Response, next: NextFunction) => {
     res.header('Access-Control-Allow-Origin', ['https://clientelle.vercel.app', 'http://localhost:8080']);
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
 
@@ -47,19 +47,19 @@ router.use((req, res, next) => {
 });
 
 // routes
-router.use('/api/v1', routes);
+app.use('/api/v1', routes);
 
-router.get('/', (req, res) => {
-    return res.status(200).json({
+app.get('/', (req: Request, res: Response): void => {
+     res.status(200).json({
         message: 'Welcome to the Clientelle API built with nodejs, express, and mongodb!'
     });
 });
 
 // error handling
-router.use((req, res, next) => {
+app.use((req: Request, res: Response, next: NextFunction): void => {
     const error = new Error('the route does not exist');
 
-    return res.status(404).json({
+    res.status(404).json({
         message: error.message
     });
 
@@ -67,7 +67,7 @@ router.use((req, res, next) => {
 });
 
 // create server
-const server = http.createServer(router);
-server.listen(config.server.port, () => {
+const server = http.createServer(app);
+server.listen(config.server.port, (): void => {
     logging.info(NAMESPACE, `Server listening on port ${config.server.port}`);
 });
