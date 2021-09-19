@@ -18,6 +18,8 @@ const listAll = async (criteria: any = {}, options:any = {}) => {
     
 }
 
+const edit = {}
+
 export default {
     create
 };

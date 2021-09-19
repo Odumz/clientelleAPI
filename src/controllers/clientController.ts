@@ -3,6 +3,8 @@ import Client from '../models/client';
 import ApiError from '@src/helpers/ApiError';
 import clientService from '../services/clientService';
 import catchAsync from '../helpers/catchAsync';
+import validate from '../policy/client.policy';
+import Joi from 'joi';
 
 const testCheck = (req: Request, res: Response, next: NextFunction) => {
     return res.status(200).json({
@@ -89,6 +91,23 @@ const getClientByID = (req: Request, res: Response, next: NextFunction) => {
 };
 
 const createClient = catchAsync(async (req: Request, res: Response) => {
+    console.log(req.body);
+
+    // const schema = Joi.object({
+    //     name: Joi.string().min(3).required(),
+    //     email: Joi.string()
+    //         .pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
+    //         .required(),
+    //     phone: Joi.number().min(10).required(),
+    //     provider: Joi.array().items({ providers: Joi.string().required() }).required()
+    // });
+
+    // const { value, error } = schema.validate(req.body);
+
+    // console.log();
+    
+    
+    // validate.addClient(req)
     const client = await clientService.create(req);
 
     res.status(201).send({
