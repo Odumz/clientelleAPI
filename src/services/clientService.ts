@@ -1,5 +1,5 @@
 import ApiError from '../helpers/ApiError';
-import { Request, Response } from 'express';
+import { Request } from 'express';
 import Client from '../models/client'
 
 const create = async (req: Request) => {

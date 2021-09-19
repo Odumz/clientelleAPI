@@ -1,6 +1,4 @@
 import { Request, Response, NextFunction } from 'express';
-import Client from '../models/client';
-import ApiError from '@src/helpers/ApiError';
 import clientService from '../services/clientService';
 import catchAsync from '../helpers/catchAsync';
 import pick from '../helpers/pick'
@@ -23,10 +21,10 @@ const getAllClients = catchAsync(async (req: Request, res: Response) => {
             count,
             clients
         }
-    });    
+    });
 });
 
-const getClientByID = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+const getClientByID = catchAsync(async (req: Request, res: Response) => {
     const client = await clientService.listOne({_id: req.params.id});
 
     res.status(200).send({
@@ -47,7 +45,7 @@ const createClient = catchAsync(async (req: Request, res: Response) => {
     });
 });
 
-const updateClient = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+const updateClient = catchAsync(async (req: Request, res: Response) => {
     const updatedClient = await clientService.edit(req.params.id, req);
 
     res.status(200).send({
@@ -56,7 +54,7 @@ const updateClient = catchAsync(async (req: Request, res: Response, next: NextFu
     });
 });
 
-const deleteClient = catchAsync(async (req: Request, res: Response, next: NextFunction) => {    
+const deleteClient = catchAsync(async (req: Request, res: Response) => {    
     const deletedClient = await clientService.remove(req.params.id);
 
     res.status(200).send({

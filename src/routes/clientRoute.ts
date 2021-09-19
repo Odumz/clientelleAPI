@@ -9,12 +9,12 @@ router.get('/ping', controller.testCheck);
 
 router.get('/all', controller.getAllClients);
 
-router.get('/:id', controller.getClientByID);
+router.get('/:id', validate.validate(clientValidation.getClient), controller.getClientByID);
 
 router.post('/add', validate.validate(clientValidation.addClient), controller.createClient);
 
 router.put('/edit/:id', validate.validate(clientValidation.editClient), controller.updateClient);
 
-router.delete('/delete/:id', controller.deleteClient);
+router.delete('/delete/:id', validate.validate(clientValidation.deleteClient), controller.deleteClient);
 
 export = router;

@@ -1,34 +1,10 @@
 import Joi from 'joi'
 
-// const addClient = (data: object) => {
-//     const schema = Joi.object({
-//         name: Joi.string().min(3).required(),
-//         email: Joi.string()
-//             .pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
-//             .required(),
-//         phone: Joi.number().min(10).required(),
-//         provider: Joi.array().items({ providers: Joi.string().required() })
-//     });
-
-//     const {value, error} = schema.validate(data);
-//     console.log('value is ', value);
-//     console.log('error is ', error);
-    
-//     // return schema.validate(data);
-// }
-
-// const editClient = (data: object) => {
-//     const schema = Joi.object({
-//         name: Joi.string().min(3).required(),
-//         email: Joi.string()
-//             .pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
-//             .required(),
-//         phone: Joi.number().min(10).required(),
-//         provider: Joi.array().items({ providers: Joi.string().required() })
-//     });
-
-//     return schema.validate(data);
-// };
+const getClient = {
+    params: Joi.object().keys({
+        id: Joi.string().alphanum().length(24).required()
+    })
+};
 
 const addClient = {
     body: Joi.object().keys({
@@ -68,7 +44,15 @@ const editClient = {
     })
 };
 
+const deleteClient = {
+    params: Joi.object().keys({
+        id: Joi.string().alphanum().length(24).required()
+    })
+};
+
 export default {
+    getClient,
     addClient,
-    editClient
+    editClient,
+    deleteClient
 }
