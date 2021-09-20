@@ -28,7 +28,7 @@ app.use(express.urlencoded({ extended: false }));
 
 // rules of the api
 app.use((req: Request, res: Response, next: NextFunction) => {
-    res.header('Access-Control-Allow-Origin', ['https://clientelle.vercel.app', 'http://localhost:8080']);
+    res.header('Access-Control-Allow-Origin', ['*']);
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
 
     if (req.method == 'OPTIONS') {

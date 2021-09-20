@@ -7,7 +7,7 @@
     "dev": "nodemon src/app.ts",
     "build": "rm -rf dist/ && prettier --write src/ && tsc",
     "test": "mocha ./src/test --timeout 10000",
-    "seed": "nodemon src/seeders/index.ts"
+    "seed": "ts-node src/seeders/index.ts"
   },
   "engines": {
     "node": "14"
