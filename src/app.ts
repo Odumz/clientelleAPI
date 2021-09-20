@@ -3,20 +3,13 @@ import express, { Request, Response, NextFunction} from 'express';
 import logging from './config/logging';
 import config from './config/config';
 import routes from './routes';
-import mongoose from 'mongoose';
+import db from './config/db'
 
 const NAMESPACE = 'api';
 const app = express();
 
 // connect to database
-mongoose
-    .connect(config.mongo.mongoUri, config.mongo.options)
-    .then(() => {
-        logging.info(NAMESPACE, 'Connected to mongoDB');
-    })
-    .catch((err) => {
-        logging.error(NAMESPACE, err.message, err);
-    });
+db.connectDB()
 
 // Configure logger
 app.use((req: Request, res: Response, next: NextFunction) => {
