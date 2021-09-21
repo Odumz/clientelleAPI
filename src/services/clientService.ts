@@ -22,7 +22,7 @@ const listAll = async (criteria: any = {}, options:any = {}) => {
         .select('name email phone provider')
         .populate({ path: 'provider', model: 'provider', select: ['_id'] });
 
-    return clients
+    return JSON.parse(JSON.stringify(clients));
 };
 
 const listOne = async (criteria: any) => {
@@ -54,7 +54,7 @@ const edit = async (clientId: any, req: any) => {
 
     Object.assign(client, data);
     await client.save();
-    return client;
+    return JSON.parse(JSON.stringify(client));
 };
 
 const remove = async (clientId: any) => {
@@ -65,7 +65,7 @@ const remove = async (clientId: any) => {
     }
     
     const deletedClient = await Client.findOneAndDelete(clientId)
-    return deletedClient;
+    return JSON.parse(JSON.stringify(deletedClient));
 };
 
 const count = async (criteria: any = {}) => {

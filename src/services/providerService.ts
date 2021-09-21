@@ -21,7 +21,7 @@ const listAll = async (criteria: any = {}, options:any = {}) => {
         .sort(sort)
         .select('_id name');
 
-    return providers
+    return JSON.parse(JSON.stringify(providers))
 };
 
 const listOne = async (criteria: any) => {
@@ -52,7 +52,7 @@ const edit = async (providerId: any, req: any) => {
 
     Object.assign(provider, data);
     await provider.save();
-    return provider;
+    return JSON.parse(JSON.stringify(provider));
 };
 
 const remove = async (providerId: any) => {
@@ -63,7 +63,7 @@ const remove = async (providerId: any) => {
     }
     
     const deletedProvider = await Provider.findOneAndDelete(providerId)
-    return deletedProvider;
+    return JSON.parse(JSON.stringify(deletedProvider));
 };
 
 const count = async (criteria: any = {}) => {

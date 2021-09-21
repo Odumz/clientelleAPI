@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.get('/ping', controller.testCheck);
 
-router.get('/', controller.getAllProviders);
+router.get('/all', controller.getAllProviders);
 
 router.get('/:id', validate.validate(providerValidation.getProvider), controller.getProviderByID);
 

@@ -4,6 +4,7 @@ import logging from './config/logging';
 import config from './config/config';
 import routes from './routes';
 import db from './config/db'
+import cors from 'cors'
 
 const NAMESPACE = 'api';
 const app = express();
@@ -21,6 +22,14 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
     next();
 });
+
+const allowedOrigins = ['https://https://clientelle.vercel.app/', 'http://localhost:8080'];
+
+const options: cors.CorsOptions = {
+    origin: allowedOrigins
+};
+
+app.use(cors(options));
 
 // parse the request body
 app.use(express.json());
@@ -64,3 +73,6 @@ const server = http.createServer(app);
 server.listen(config.server.port, (): void => {
     logging.info(NAMESPACE, `Server listening on port ${config.server.port}`);
 });
+
+//export app
+export default app

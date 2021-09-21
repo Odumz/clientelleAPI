@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import config from './config';
 import logging from './logging';
 
-const NAMESPACE = 'seeder';
+const NAMESPACE = 'api';
 
 // connect to database
 const connectDB = async () => {
