@@ -26,9 +26,7 @@ const listAll = async (criteria: any = {}, options:any = {}) => {
 };
 
 const listOne = async (criteria: any) => {
-    try {
-        console.log(criteria);
-        
+    try {    
         const client = await Client.findOne(criteria)
             .select('name email phone provider')
             .populate({ path: 'provider', model: 'provider', select: ['_id'] });

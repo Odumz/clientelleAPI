@@ -26,8 +26,6 @@ const listAll = async (criteria: any = {}, options:any = {}) => {
 
 const listOne = async (criteria: any) => {
     try {
-        console.log(criteria);
-        
         const provider = await Provider.findOne(criteria)
             .select('_id name');
 

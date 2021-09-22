@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import clientService from '../services/clientService';
 import catchAsync from '../helpers/catchAsync';
-import pick from '../helpers/pick'
+import pick from '../helpers/pick';
 
 const testCheck = (req: Request, res: Response) => {
     res.status(200).send({
@@ -10,8 +10,8 @@ const testCheck = (req: Request, res: Response) => {
 };
 
 const getAllClients = catchAsync(async (req: Request, res: Response) => {
-    const options = pick(req.query, ["sortBy"]);
-    const filter = {}
+    const options = pick(req.query, ['sortBy']);
+    const filter = {};
     const clients = await clientService.listAll(options);
     const count = await clientService.count(filter);
     res.status(200).send({
@@ -25,7 +25,7 @@ const getAllClients = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getClientByID = catchAsync(async (req: Request, res: Response) => {
-    const client = await clientService.listOne({_id: req.params.id});
+    const client = await clientService.listOne({ _id: req.params.id });
 
     res.status(200).send({
         status: 'success',
@@ -33,7 +33,7 @@ const getClientByID = catchAsync(async (req: Request, res: Response) => {
         data: {
             client
         }
-    });  
+    });
 });
 
 const createClient = catchAsync(async (req: Request, res: Response) => {
@@ -54,7 +54,7 @@ const updateClient = catchAsync(async (req: Request, res: Response) => {
     });
 });
 
-const deleteClient = catchAsync(async (req: Request, res: Response) => {    
+const deleteClient = catchAsync(async (req: Request, res: Response) => {
     const deletedClient = await clientService.remove(req.params.id);
 
     res.status(200).send({
@@ -62,7 +62,7 @@ const deleteClient = catchAsync(async (req: Request, res: Response) => {
     });
 });
 
-export default { 
+export default {
     testCheck,
     getAllClients,
     createClient,

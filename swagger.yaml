@@ -1,0 +1,357 @@
+swagger: "2.0"
+info:
+  description: "This is a simple API documentation for the Clientelle server."
+  version: 1.0.0
+  title: Clientelle API Documentation
+  contact:
+    email: "odumz20@gmail.com"
+  license:
+    name: Apache 2.0
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "localhost:5000"
+basePath: /
+tags:
+  - name: test
+    description: Operations about tests
+  - name: client
+    description: Operations about clients
+  - name: provider
+    description: Operations about providers
+schemes:
+  - http
+paths:
+  /:
+    get:
+      tags:
+        - test
+      summary: Test server connection
+      x-swagger-router-controller: SampleController
+      description: "Test the connection to the server"
+      operationId: testApp
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/xml
+        - application/json
+      responses:
+        "200":
+          description: Welcome to the Clientelle API built with nodejs, express, and mongodb!
+  /api/v1/clients/ping:
+    get:
+      tags:
+        - test
+      summary: Test client connection
+      x-swagger-router-controller: SampleController
+      description: "Test the connection to the client server"
+      operationId: testClient
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/xml
+        - application/json
+      responses:
+        "200":
+          description: Welcome to the Clientelle API built with nodejs, express, and mongodb!
+  /api/v1/providers/ping:
+    get:
+      tags:
+        - test
+      summary: Test provider connection
+      x-swagger-router-controller: SampleController
+      description: "Test the connection to the provider server"
+      operationId: testProvider
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/xml
+        - application/json
+      responses:
+        "200":
+          description: Welcome to the Clientelle API built with nodejs, express, and mongodb!
+  /api/v1/clients/all:
+    get:
+      tags:
+        - client
+      summary: Fetch all clients
+      description: "Fetch all clients in the database"
+      operationId: fetchClients
+      produces:
+        - application/xml
+        - application/json
+      responses:
+        "200":
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Client"
+  /api/v1/providers/all:
+    get:
+      tags:
+        - provider
+      summary: Fetch all providers
+      description: "Fetch all providers in the database"
+      operationId: fetchProviders
+      produces:
+        - application/xml
+        - application/json
+      responses:
+        "200":
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Provider"
+  /api/v1/clients/{clientId}:
+    get:
+      tags:
+        - client
+      summary: Find client by ID
+      description: Returns a single client
+      operationId: getClientById
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: clientId
+          in: path
+          description: ID of client to return
+          required: true
+          type: string
+      responses:
+        "200":
+          description: successful operation
+          schema:
+            $ref: "#/definitions/Client"
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Client not found
+  /api/v1/providers/{providerId}:
+    get:
+      tags:
+        - provider
+      summary: Find provider by ID
+      description: Returns a single provider
+      operationId: getProviderById
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: providerId
+          in: path
+          description: ID of provider to return
+          required: true
+          type: string
+      responses:
+        "200":
+          description: successful operation
+          schema:
+            $ref: "#/definitions/Provider"
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: provider not found
+  /api/v1/clients/add:
+    post:
+      tags:
+        - client
+      summary: Add a client
+      description: "Add a client to the store with form data"
+      operationId: addClient
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: client details to be added
+          required: true
+          schema:
+            $ref: "#/definitions/Client"
+      responses:
+        "201":
+          description: successful operation
+        "500":
+          description: bad operation
+  /api/v1/providers/add:
+    post:
+      tags:
+        - provider
+      summary: Add a provider
+      description: "Add a provider to the store with form data"
+      operationId: addProvider
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - in: formData
+          name: name
+          description: provider details to be added
+          required: true
+          schema:
+            $ref: "#/definitions/Provider"
+      responses:
+        "201":
+          description: successful operation
+        "500":
+          description: bad operation
+  /api/v1/clients/edit/{clientId}:
+    put:
+      tags:
+        - client
+      summary: Update client
+      description: Update the client's details
+      operationId: updateClient
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: clientId
+          in: path
+          description: ID of  client that needs to be edited
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Updated details of client
+          required: true
+          schema:
+            $ref: "#/definitions/Client"
+      responses:
+        "200":
+          description: successful operation
+        "400":
+          description: Invalid user supplied
+        "404":
+          description: User not found
+  /api/v1/providers/edit/{providerId}:
+    put:
+      tags:
+        - provider
+      summary: Update provider
+      description: Update the provider's details
+      operationId: updateProvider
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: providerId
+          in: path
+          description: ID of  provider that needs to be edited
+          required: true
+          type: string
+        - in: formData
+          name: name
+          description: Updated name of provider
+          required: true
+          schema:
+            $ref: "#/definitions/Provider"
+      responses:
+        "200":
+          description: successful operation
+        "400":
+          description: Invalid user supplied
+        "404":
+          description: User not found
+  /api/v1/clients/delete/{clientId}:
+    delete:
+      tags:
+        - client
+      summary: Deletes a client
+      description: "Delete the client by given id"
+      operationId: deleteClient
+      consumes:
+        - multipart/form-data
+        - application/x-www-form-urlencoded
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: clientId
+          in: path
+          description: Client id to delete
+          required: true
+          type: string
+      responses:
+        "200":
+          description: successful operation
+        "400":
+          description: Invalid pet value
+  /api/v1/providers/delete/{providerId}:
+    delete:
+      tags:
+        - provider
+      summary: Deletes a provider
+      description: "Delete the provider by given id"
+      operationId: deleteProvider
+      consumes:
+        - multipart/form-data
+        - application/x-www-form-urlencoded
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: providerId
+          in: path
+          description: Provider id to delete
+          required: true
+          type: string
+      responses:
+        "200":
+          description: successful operation
+        "400":
+          description: Invalid pet value
+definitions:
+  Provider:
+    required:
+      - name
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+    xml:
+      name: Provider
+  Client:
+    required:
+      - name
+      - email
+      - phone
+      - provider
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      email:
+        type: string
+      phone:
+        type: integer
+      provider:
+        type: array
+        xml:
+          name: provider
+          wrapped: true
+        items:
+          $ref: "#/definitions/Provider"
+    xml:
+      name: Client
+  ApiResponse:
+    properties:
+      code:
+        type: integer
+        format: int32
+      type:
+        type: string
+      message:
+        type: string
+    xml:
+      name: "##default"
