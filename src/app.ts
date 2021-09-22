@@ -5,12 +5,20 @@ import config from './config/config';
 import routes from './routes';
 import db from './config/db'
 import cors from 'cors'
+import YAML from 'yamljs';
+import swaggerUI from 'swagger-ui-express';
 
 const NAMESPACE = 'api';
 const app = express();
 
 // connect to database
 db.connectDB()
+
+// define swagger document
+const swaggerDoc = YAML.load(`${process.cwd()}/swagger.yaml`);
+
+// use swagger doc
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDoc, { explorer: true }))
 
 // Configure logger
 app.use((req: Request, res: Response, next: NextFunction) => {

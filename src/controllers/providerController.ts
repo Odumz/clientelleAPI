@@ -6,7 +6,7 @@ import pick from '../helpers/pick';
 const NAMESPACE = 'providerController';
 
 const testCheck = (req: Request, res: Response) => {
-    res.status(200).json({
+    res.status(200).send({
         message: 'provider testCheck'
     });
 };
