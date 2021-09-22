@@ -2,6 +2,8 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+const env = process.env.NODE_ENV || 'dev';
+
 const MONGO_OPTIONS = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -10,7 +12,13 @@ const MONGO_OPTIONS = {
     socketTimeoutMS: 30000
 };
 
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/clientile';
+let MONGO_URI:string = '';
+
+if (env === 'test') {
+    MONGO_URI = process.env.TEST_MONGO_URI!;
+} else {
+    MONGO_URI = process.env.MONGO_URI!;
+}
 
 const MONGO = {
     mongoUri: MONGO_URI,

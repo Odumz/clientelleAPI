@@ -5,8 +5,8 @@ import pick from '../helpers/pick';
 
 const NAMESPACE = 'providerController';
 
-const testCheck = (res: Response) => {
-    return res.status(200).json({
+const testCheck = (req: Request, res: Response) => {
+    res.status(200).json({
         message: 'provider testCheck'
     });
 };
