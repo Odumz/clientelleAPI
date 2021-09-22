@@ -31,11 +31,20 @@ describe('Index Test', () => {
 describe('Get all route tests', () => {
     it('should get clients', async () => {
         const res = await request(app).get('/api/v1/clients/all');
+        let clients:any = res.body.data.clients;
         expect(res.status).to.equal(200);
         expect(res.body).not.to.be.empty;
         expect(res.body.status).to.equal('success');
         expect(res.body.data).to.be.an('object');
-        expect(res.body.data.clients).to.be.an('array');
+        expect(clients).to.be.an('array');
+        
+        clients.forEach((client:any) => {
+            expect(client.name).to.be.a('string');
+            expect(client.email).to.be.a('string');
+            expect(client.phone).to.be.a('number');
+            expect(client.provider).to.be.an('array');
+        })
+        
     });
     it('should get providers', async () => {
         const res = await request(app).get('/api/v1/providers/all').send({ provider: 'first provider' });
@@ -48,8 +57,13 @@ describe('Get all route tests', () => {
 });
 
 describe('Post route tests', () => {
-    beforeEach((done) => {        
+    before((done) => {        
         Client.deleteMany({}, (err) => {
+            done();
+        });
+    });
+    before((done) => {
+        Provider.deleteMany({}, (err) => {
             done();
         });
     });
@@ -184,4 +198,4 @@ describe('Post route tests', () => {
         expect(res.status).to.be.equal(500);
         expect(res.body).to.be.empty;
     });
-})
+});
