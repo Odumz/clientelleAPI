@@ -2,9 +2,9 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const env = process.env.NODE_ENV || 'dev';
+const env:string = process.env.NODE_ENV || 'dev';
 
-const MONGO_OPTIONS = {
+const MONGO_OPTIONS:any = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     keepAlive: true,
@@ -12,7 +12,7 @@ const MONGO_OPTIONS = {
     socketTimeoutMS: 30000
 };
 
-let MONGO_URI:string = '';
+let MONGO_URI:string;
 
 if (env === 'test') {
     MONGO_URI = process.env.TEST_MONGO_URI!;
@@ -20,19 +20,19 @@ if (env === 'test') {
     MONGO_URI = process.env.MONGO_URI!;
 }
 
-const MONGO = {
+const MONGO:any = {
     mongoUri: MONGO_URI,
     options: MONGO_OPTIONS
 };
 
-const PORT = process.env.PORT || 5000;
+const PORT:string = process.env.PORT!;
 
-const SERVER = {
+const SERVER:any = {
     port: PORT,
     mongo: MONGO_URI
 };
 
-const config = {
+const config:any = {
     mongo: MONGO,
     server: SERVER
 };
