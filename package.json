@@ -21,6 +21,11 @@
     "typescript",
     "mongoose",
     "express",
+    "mocha",
+    "chai",
+    "swagger",
+    "supertest",
+    "faker",
     "api",
     "nodejs"
   ],

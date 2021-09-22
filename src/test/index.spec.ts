@@ -405,7 +405,7 @@ describe('Delete route tests', () => {
                 });
         });
     });
-    it('should edit a provider by the given id', (done) => {
+    it('should delete a provider by the given id', (done) => {
         let provider = new Provider({
             name: 'Test1'
         });
