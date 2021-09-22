@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon src/app.ts",
     "build": "rm -rf dist/ && prettier --write src/ && tsc",
-    "test": "nodemon --watch . --ext ts --exec \"mocha -r ts-node/register src/test/**/*.spec.ts\"",
+    "test": "export NODE_ENV=test && nodemon --watch . --ext ts --exec \"mocha -r ts-node/register src/test/**/*.spec.ts\"",
     "testn": "mocha ./src/test --timeout 10000",
     "seed": "ts-node src/seeders/index.ts"
   },

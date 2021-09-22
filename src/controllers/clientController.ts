@@ -3,8 +3,8 @@ import clientService from '../services/clientService';
 import catchAsync from '../helpers/catchAsync';
 import pick from '../helpers/pick'
 
-const testCheck = (res: Response) => {
-    return res.status(200).json({
+const testCheck = (req: Request, res: Response) => {
+    res.status(200).send({
         message: 'client testCheck'
     });
 };

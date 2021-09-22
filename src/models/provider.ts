@@ -1,4 +1,4 @@
-import IProvider from '@src/interfaces/provider';
+import IProvider from '../interfaces/provider';
 import { Schema } from 'mongoose';
 import mongoose from 'mongoose';
 
