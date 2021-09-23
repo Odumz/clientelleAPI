@@ -131,7 +131,7 @@ paths:
         "400":
           description: Invalid ID supplied
         "404":
-          description: Client not found
+          description: Client with the given ID not found
   /api/v1/providers/{providerId}:
     get:
       tags:
@@ -158,7 +158,7 @@ paths:
         "400":
           description: Invalid ID supplied
         "404":
-          description: provider not found
+          description: Provider with the given ID not found
   /api/v1/clients/add:
     post:
       tags:
@@ -179,6 +179,10 @@ paths:
       responses:
         "201":
           description: successful operation
+        "400":
+          description: Invalid/Incomplete data supplied
+        "409":
+          description: Client's email already exists
         "500":
           description: bad operation
   /api/v1/providers/add:
@@ -201,6 +205,10 @@ paths:
       responses:
         "201":
           description: successful operation
+        "400":
+          description: Invalid/Incomplete data supplied
+        "409":
+          description: Client's email already exists
         "500":
           description: bad operation
   /api/v1/clients/edit/{clientId}:
@@ -229,9 +237,9 @@ paths:
         "200":
           description: successful operation
         "400":
-          description: Invalid user supplied
+          description: Invalid client data supplied
         "404":
-          description: User not found
+          description: Client not found
   /api/v1/providers/edit/{providerId}:
     put:
       tags:
@@ -258,9 +266,9 @@ paths:
         "200":
           description: successful operation
         "400":
-          description: Invalid user supplied
+          description: Invalid provider data supplied
         "404":
-          description: User not found
+          description: Provider not found
   /api/v1/clients/delete/{clientId}:
     delete:
       tags:
@@ -284,7 +292,9 @@ paths:
         "200":
           description: successful operation
         "400":
-          description: Invalid pet value
+          description: Invalid ID supplied
+        "404":
+          description: Client with the given ID not found
   /api/v1/providers/delete/{providerId}:
     delete:
       tags:
@@ -308,7 +318,9 @@ paths:
         "200":
           description: successful operation
         "400":
-          description: Invalid pet value
+          description: Invalid ID supplied
+        "404":
+          description: Provider with the given ID not found
 definitions:
   Provider:
     required:

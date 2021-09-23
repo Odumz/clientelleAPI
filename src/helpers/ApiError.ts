@@ -1,12 +1,15 @@
 export default class ApiError extends Error {
-    constructor(statusCode: number, message: string, stack = '') {
+    private statusCode: number;
+    constructor(statusCode: number, message: string) {
         super(message);
-        statusCode = statusCode;
 
-        if (stack) {
-            this.stack = stack;
-        } else {
-            Error.captureStackTrace(this, this.constructor);
-        }
+        // Object.setPrototypeOf(this, new.target.prototype)
+        this.statusCode = statusCode;
+
+        // if (stack) {
+        //     this.stack = stack;
+        // } else {
+            Error.captureStackTrace(this);
+        // }
     }
 }
