@@ -21,12 +21,12 @@ const create = async (req: Request) => {
 };
 
 const listAll = async (criteria: any = {}, options:any = {}) => {
-    const { sort = { createdAt: -1 }} = options;
+    const { sort = {  }} = options;
 
     let clients = await Client.find(criteria)
         .sort(sort)
         .select('name email phone provider')
-        .populate({ path: 'provider', model: 'provider', select: ['_id'] });
+        .populate({ path: 'provider', model: 'provider', select: ['_id name'] });
 
     return JSON.parse(JSON.stringify(clients));
 };
@@ -35,7 +35,7 @@ const listOne = async (criteria: any) => {
     try {    
         const client = await Client.findOne(criteria)
             .select('name email phone provider')
-            .populate({ path: 'provider', model: 'provider', select: ['_id'] });
+            .populate({ path: 'provider', model: 'provider', select: ['_id name'] });
 
         if (!client) {
             throw new ApiError(404, 'Client not found');

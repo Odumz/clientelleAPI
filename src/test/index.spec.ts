@@ -98,7 +98,7 @@ describe('Post route tests', () => {
                 phone: '13649152557',
                 provider: ['6146ff749250f63f63671622']
             });
-        expect(res.status).to.be.equal(500);
+        expect(res.status).to.be.equal(400);
         expect(res.body).to.be.empty;
     });
     it('should not add data to the client data if email is missing', async () => {
@@ -109,7 +109,7 @@ describe('Post route tests', () => {
                 phone: '13649152557',
                 provider: ['6146ff749250f63f63671622']
             });
-        expect(res.status).to.be.equal(500);
+        expect(res.status).to.be.equal(400);
         expect(res.body).to.be.empty;
     });
     it('should not add data to the client data if phone is missing', async () => {
@@ -120,7 +120,7 @@ describe('Post route tests', () => {
                 email: 'test1@taast.test',
                 provider: ['6146ff749250f63f63671622']
             });
-        expect(res.status).to.be.equal(500);
+        expect(res.status).to.be.equal(400);
         expect(res.body).to.be.empty;
     });
     it('should not add data to the client data if provider id is missing', async () => {
@@ -131,7 +131,7 @@ describe('Post route tests', () => {
                 email: 'test1@taast.test',
                 phone: '13649152557'
             });
-        expect(res.status).to.be.equal(500);
+        expect(res.status).to.be.equal(400);
         expect(res.body).to.be.empty;
     });
     it('should not add data to the client data if phone number is less than 10', async () => {
@@ -143,7 +143,7 @@ describe('Post route tests', () => {
                 phone: '136491527',
                 provider: ['6146ff749250f63f63671622']
             });
-        expect(res.status).to.be.equal(500);
+        expect(res.status).to.be.equal(400);
         expect(res.body).to.be.empty;
     });
     it('should not add data to the client data if email format is wrong', async () => {
@@ -155,7 +155,7 @@ describe('Post route tests', () => {
                 phone: '136491523567',
                 provider: ['6146ff749250f63f63671622']
             });
-        expect(res.status).to.be.equal(500);
+        expect(res.status).to.be.equal(400);
         expect(res.body).to.be.empty;
     });
     it('should not add data to the client data if name is less than 3 characters', async () => {
@@ -167,7 +167,7 @@ describe('Post route tests', () => {
                 phone: '136491523567',
                 provider: ['6146ff749250f63f63671622']
             });
-        expect(res.status).to.be.equal(500);
+        expect(res.status).to.be.equal(400);
         expect(res.body).to.be.empty;
     });
     it('should not add data to the client data if provider id is less than 24 characters', async () => {
@@ -179,7 +179,7 @@ describe('Post route tests', () => {
                 phone: '136491523567',
                 provider: ['6146ff7492503f63671622']
             });
-        expect(res.status).to.be.equal(500);
+        expect(res.status).to.be.equal(400);
         expect(res.body).to.be.empty;
     });
     it('should add data to the provider data', async () => {
@@ -197,7 +197,7 @@ describe('Post route tests', () => {
         const res = await request(app)
             .post('/api/v1/providers/add')
             .send({});
-        expect(res.status).to.be.equal(500);
+        expect(res.status).to.be.equal(400);
         expect(res.body).to.be.empty;
     });
     it('should not add data to the provider data if name is less than 3 characters', async () => {
@@ -206,7 +206,31 @@ describe('Post route tests', () => {
             .send({
                 name: 'Te'
             });
-        expect(res.status).to.be.equal(500);
+        expect(res.status).to.be.equal(400);
+        expect(res.body).to.be.empty;
+    });
+});
+
+describe('Duplicate post route tests', () => {    
+    it('should not add data to the client data if email is a duplicate', async () => {
+        const res = await request(app)
+            .post('/api/v1/clients/add')
+            .send({
+                name: 'Test1',
+                email: 'test1@taast.test',
+                phone: '13649152557',
+                provider: ['6146ff749250f63f63671622']
+            });
+        expect(res.status).to.be.equal(409);
+        expect(res.body).to.be.empty;
+    });  
+    it('should not add data to the provider data if name is a duplicate', async () => {
+        const res = await request(app)
+            .post('/api/v1/providers/add')
+            .send({
+                name: 'Test1'
+            });
+        expect(res.status).to.be.equal(409);
         expect(res.body).to.be.empty;
     });
 });
@@ -326,7 +350,7 @@ describe('Edit route tests', () => {
                     phone: '132397525537'
                 })
                 .end((err, res) => {
-                    expect(res.status).to.be.equal(500);
+                    expect(res.status).to.be.equal(400);
                     expect(res.body).to.be.empty;
                     done();
                 });
@@ -364,7 +388,7 @@ describe('Edit route tests', () => {
                 .put(`/api/v1/providers/edit/${provider._id}`)
                 .send({ name: '' })
                 .end((err, res) => {
-                    expect(res.status).to.be.equal(500);
+                    expect(res.status).to.be.equal(400);
                     expect(res.body).to.be.empty;
                     done();
                 });

@@ -21,7 +21,7 @@ const create = async (req: Request) => {
 };
 
 const listAll = async (criteria: any = {}, options:any = {}) => {
-    const { sort = { createdAt: -1 }} = options;
+    const { sort = {  }} = options;
 
     let providers = await Provider.find(criteria)
         .sort(sort)
