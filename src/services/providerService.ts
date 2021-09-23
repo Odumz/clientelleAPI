@@ -6,6 +6,12 @@ const create = async (req: Request) => {
     try {
         const data = req.body;
 
+        const existingProvider = await Provider.findOne({ name: data.name });
+
+        if (existingProvider) {
+            throw new ApiError(409, 'Provider with this name exists');
+        }
+
         const provider = await Provider.create(data);
 
         return JSON.parse(JSON.stringify(provider));
