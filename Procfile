@@ -1,1 +1,1 @@
-web: ts-node src/app.ts
+web: node dist/app.js
