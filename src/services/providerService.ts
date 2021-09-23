@@ -6,11 +6,17 @@ const create = async (req: Request) => {
     try {
         const data = req.body;
 
+        const existingProvider = await Provider.findOne({ name: data.name });
+
+        if (existingProvider) {
+            throw new ApiError(409, 'Provider with this name exists');
+        }
+
         const provider = await Provider.create(data);
 
         return JSON.parse(JSON.stringify(provider));
     } catch (err: any) {
-        throw new ApiError(err.code || 500, err.message || err);
+        throw new ApiError(err.statusCode || 500, err.message || err);
     }
 };
 
@@ -35,7 +41,9 @@ const listOne = async (criteria: any) => {
 
         return JSON.parse(JSON.stringify(provider));
     } catch (error: any) {
-        throw new ApiError(error.code || 500, error.message || error);
+        console.log('error is ', error)
+        
+        throw new ApiError(error.statusCode || 500, error.message || error);
     }
 };
 

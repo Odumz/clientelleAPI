@@ -6,11 +6,17 @@ const create = async (req: Request) => {
     try {
         const data = req.body;
 
+        const existingClient = await Client.findOne({ email: data.email });
+
+        if (existingClient) {
+            throw new ApiError(409, 'Client with this email exists');
+        }
+
         const client = await Client.create(data);
 
         return JSON.parse(JSON.stringify(client));
     } catch (err: any) {
-        throw new ApiError(err.code || 500, err.message || err);
+        throw new ApiError(err.statusCode || 500, err.message || err);
     }
 };
 
@@ -37,7 +43,7 @@ const listOne = async (criteria: any) => {
 
         return JSON.parse(JSON.stringify(client));
     } catch (error: any) {
-        throw new ApiError(error.code || 500, error.message || error);
+        throw new ApiError(error.statusCode || 500, error.message || error);
     }
 };
 
