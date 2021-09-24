@@ -25,7 +25,7 @@ const getAllClients = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getClientByID = catchAsync(async (req: Request, res: Response) => {
-    const client = await clientService.listOne({ _id: req.params.id });
+    const client = await clientService.listOne(req.params.id);
 
     res.status(200).send({
         status: 'success',

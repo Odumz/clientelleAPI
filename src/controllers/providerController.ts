@@ -27,7 +27,7 @@ const getAllProviders = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getProviderByID = catchAsync(async (req: Request, res: Response) => {
-    const provider = await providerService.listOne({ _id: req.params.id });
+    const provider = await providerService.listOne(req.params.id);
 
     res.status(200).send({
         status: 'success',

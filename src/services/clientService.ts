@@ -1,6 +1,6 @@
 import ApiError from '../helpers/ApiError';
 import { Request } from 'express';
-import Client from '../models/client'
+import Client from '../models/client';
 
 const create = async (req: Request) => {
     try {
@@ -21,19 +21,23 @@ const create = async (req: Request) => {
 };
 
 const listAll = async (criteria: any = {}, options:any = {}) => {
-    const { sort = {  }} = options;
+    try {
+        const { sort = { createdAt: 1 }} = options;
 
-    let clients = await Client.find(criteria)
-        .sort(sort)
-        .select('name email phone provider')
-        .populate({ path: 'provider', model: 'provider', select: ['_id', 'name'] });
+        let clients = await Client.find(criteria)
+            .sort(sort)
+            .select('name email phone provider')
+            .populate({ path: 'provider', model: 'provider', select: ['_id', 'name'] });
 
-    return JSON.parse(JSON.stringify(clients));
+        return JSON.parse(JSON.stringify(clients));
+    } catch (err: any) {
+        throw new ApiError(err.statusCode || 500, err.message || err)
+    }
 };
 
-const listOne = async (criteria: any) => {
+const listOne = async (criteria: string) => {
     try {    
-        const client = await Client.findOne(criteria)
+        const client = await Client.findById(criteria)
             .select('name email phone provider')
             .populate({ path: 'provider', model: 'provider', select: ['_id', 'name'] });
 
@@ -47,33 +51,40 @@ const listOne = async (criteria: any) => {
     }
 };
 
-const edit = async (clientId: any, req: any) => {
-    let client = await Client.findById(clientId);
+const edit = async (clientId: string, req: any) => {
+    try {
+        let client = await Client.findByIdAndUpdate(clientId, req.body);
 
-    if (!client) {
-        throw new ApiError(404, 'Client not found')
+        if (!client) {
+            throw new ApiError(404, 'Client not found')
+        }
+
+        return JSON.parse(JSON.stringify(client));
+    } catch (err: any) {
+        throw new ApiError(err.statusCode || 500, err.message || err)
     }
-
-    let data = req.body;
-
-    Object.assign(client, data);
-    await client.save();
-    return JSON.parse(JSON.stringify(client));
 };
 
-const remove = async (clientId: any) => {
-    let client = await Client.findById(clientId);
+const remove = async (clientId: string) => {
+    try {
+        let client = await Client.findByIdAndRemove(clientId);
 
-    if (!client) {
-        throw new ApiError(404, 'Client not found');
+        if (!client) {
+            throw new ApiError(404, 'Client not found');
+        }
+
+        return JSON.parse(JSON.stringify(client));
+    } catch (error: any) {
+        throw new ApiError(error.statusCode || 500, error.message || 'error')
     }
-    
-    const deletedClient = await Client.findOneAndDelete(clientId)
-    return JSON.parse(JSON.stringify(deletedClient));
 };
 
 const count = async (criteria: any = {}) => {
-    return await Client.find(criteria).countDocuments();
+    try {
+        return await Client.find(criteria).countDocuments();
+    } catch (err: any) {
+        throw new ApiError(err.statusCode || 500, err.message || err)
+    }
 };
 
 export default {
