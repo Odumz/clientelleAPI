@@ -1,6 +1,9 @@
 import ApiError from '../helpers/ApiError';
 import { Request } from 'express';
 import Client from '../models/client';
+import logging from '../config/logging';
+
+const NAMESPACE = 'service'
 
 const create = async (req: Request) => {
     try {
@@ -58,8 +61,13 @@ const edit = async (clientId: string, req: any) => {
         if (!client) {
             throw new ApiError(404, 'Client not found')
         }
+        logging.info(NAMESPACE, 'see client', client)
 
-        return JSON.parse(JSON.stringify(client));
+        const updatedClient = await Client.findById(client._id);
+
+        logging.info(NAMESPACE, 'see updated client', updatedClient);
+        
+        return JSON.parse(JSON.stringify(updatedClient));
     } catch (err: any) {
         throw new ApiError(err.statusCode || 500, err.message || err)
     }
