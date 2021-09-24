@@ -22,7 +22,7 @@ const create = async (req: Request) => {
 
 const listAll = async (criteria: any = {}, options:any = {}) => {
     try {
-        const { sort = { createdAt: 1 }} = options;
+        const { sort = { createdAt: -1 }} = options;
 
         let clients = await Client.find(criteria)
             .sort(sort)

@@ -8,7 +8,7 @@ info:
   license:
     name: Apache 2.0
     url: "http://www.apache.org/licenses/LICENSE-2.0.html"
-host: "localhost:5000"
+host: "clientelle.herokuapp.com"
 basePath: /
 tags:
   - name: test
@@ -18,7 +18,7 @@ tags:
   - name: provider
     description: Operations about providers
 schemes:
-  - http
+  - https
 paths:
   /:
     get:
