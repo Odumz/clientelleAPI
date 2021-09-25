@@ -139,7 +139,7 @@ describe('Post route tests', () => {
             .post('/api/v1/clients/add')
             .send({
                 name: 'Test1',
-                email: 'test1@taast.test',
+                email: 'test1@taest.test',
                 phone: '136491527',
                 provider: ['6146ff749250f63f63671622']
             });
@@ -320,7 +320,7 @@ describe('Edit route tests', () => {
                 .send({
                     name: 'Test2',
                     phone: '132397525537',
-                    provider: ['6146ff749250f63f63671622']
+                    provider: [{ _id: '614e5aa5e3b97402ad30ed0c', name: 'Credit' }]
                 })
                 .end((err, res) => {
                     expect(res.status).to.be.equal(200);
