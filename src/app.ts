@@ -31,10 +31,10 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     next();
 });
 
-const allowedOrigins = ['https://clientelle.vercel.app/', 'https://clientelle.netlify.app/', 'http://localhost:8080'];
+const allowedOrigins = ['https://clientelle.vercel.app', 'https://clientelle.netlify.app', 'http://localhost:8080'];
 
 const options: cors.CorsOptions = {
-    origin: allowedOrigins
+    origin: '*'
 };
 
 app.use(cors(options));
