@@ -23,10 +23,22 @@ const create = async (req: Request) => {
     }
 };
 
-const listAll = async (criteria: any = {}, options:any = {}) => {
+const listAll = async (options: any = {}, criteria: any = {}) => {
     try {
-        const { sort = { createdAt: -1 } } = options;
+        let sorter: number = -1;
 
+        if (options.sortBy) {
+            const parts = options.sortBy.split(':');
+            sorter = parts[1] === 'asc' ? 1 : -1;
+        }
+
+        if (criteria.name) {
+            const newQuery = criteria.name.split(',') || [];
+            criteria = {'name': { "$in": newQuery}}
+        }
+
+        const { sort = { createdAt: sorter } } = options;
+        
         let providers = await Provider.find(criteria).sort(sort).select('_id name');
 
         return JSON.parse(JSON.stringify(providers));

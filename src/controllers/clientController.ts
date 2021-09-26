@@ -11,9 +11,9 @@ const testCheck = (req: Request, res: Response) => {
 
 const getAllClients = catchAsync(async (req: Request, res: Response) => {
     const options = pick(req.query, ['sortBy']);
-    const filter = {};
-    const clients = await clientService.listAll(options);
-    const count = await clientService.count(filter);
+    const filter = pick(req.query, ['name', 'email', 'phone']);
+    const clients = await clientService.listAll(options, filter);
+    const count = await clients.length;
     res.status(200).send({
         status: 'success',
         message: 'Clients successfully fetched',

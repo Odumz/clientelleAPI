@@ -13,9 +13,10 @@ const testCheck = (req: Request, res: Response) => {
 
 const getAllProviders = catchAsync(async (req: Request, res: Response) => {
     const options = pick(req.query, ['sortBy']);
-    const filter = {};
-    const providers = await providerService.listAll(options);
-    const count = await providerService.count(filter);
+    const filter = pick(req.query, ['name']);
+    const providers = await providerService.listAll(options, filter);
+    // const count = await providerService.count(filter);
+    const count = await providers.length;
     res.status(200).send({
         status: 'success',
         message: 'Providers successfully fetched',
