@@ -3,7 +3,7 @@ import { Request } from 'express';
 import Client from '../models/client';
 import logging from '../config/logging';
 
-const NAMESPACE = 'service'
+const NAMESPACE = 'service';
 
 const create = async (req: Request) => {
     try {
@@ -23,9 +23,31 @@ const create = async (req: Request) => {
     }
 };
 
-const listAll = async (criteria: any = {}, options:any = {}) => {
+const listAll = async (options: any = {}, criteria: any = {}) => {
     try {
-        const { sort = { createdAt: -1 }} = options;
+        let sorter = -1;
+
+        if (options.sortBy) {
+            const parts = options.sortBy.split(':');
+            sorter = parts[1] === 'asc' ? 1 : -1;
+        }
+
+        if (criteria.name) {
+            const newQuery = criteria.name.split(',') || [];
+            criteria = { name: { $in: newQuery } };
+        }
+
+        if (criteria.phone) {
+            const newQuery = criteria.phone.split(',') || [];
+            criteria = { phone: { $in: newQuery } };
+        }
+
+        if (criteria.email) {
+            const newQuery = criteria.email.split(',') || [];
+            criteria = { email: { $in: newQuery } };
+        }
+
+        const { sort = { createdAt: sorter } } = options;
 
         let clients = await Client.find(criteria)
             .sort(sort)
@@ -34,12 +56,12 @@ const listAll = async (criteria: any = {}, options:any = {}) => {
 
         return JSON.parse(JSON.stringify(clients));
     } catch (err: any) {
-        throw new ApiError(err.statusCode || 500, err.message || err)
+        throw new ApiError(err.statusCode || 500, err.message || err);
     }
 };
 
 const listOne = async (criteria: string) => {
-    try {    
+    try {
         const client = await Client.findById(criteria)
             .select('name email phone provider')
             .populate({ path: 'provider', model: 'provider', select: ['_id', 'name'] });
@@ -59,17 +81,17 @@ const edit = async (clientId: string, req: any) => {
         let client = await Client.findByIdAndUpdate(clientId, req.body);
 
         if (!client) {
-            throw new ApiError(404, 'Client not found')
+            throw new ApiError(404, 'Client not found');
         }
-        logging.info(NAMESPACE, 'see client', client)
+        logging.info(NAMESPACE, 'see client', client);
 
         const updatedClient = await Client.findById(client._id);
 
         logging.info(NAMESPACE, 'see updated client', updatedClient);
-        
+
         return JSON.parse(JSON.stringify(updatedClient));
     } catch (err: any) {
-        throw new ApiError(err.statusCode || 500, err.message || err)
+        throw new ApiError(err.statusCode || 500, err.message || err);
     }
 };
 
@@ -83,7 +105,7 @@ const remove = async (clientId: string) => {
 
         return JSON.parse(JSON.stringify(client));
     } catch (error: any) {
-        throw new ApiError(error.statusCode || 500, error.message || 'error')
+        throw new ApiError(error.statusCode || 500, error.message || 'error');
     }
 };
 
@@ -91,7 +113,7 @@ const count = async (criteria: any = {}) => {
     try {
         return await Client.find(criteria).countDocuments();
     } catch (err: any) {
-        throw new ApiError(err.statusCode || 500, err.message || err)
+        throw new ApiError(err.statusCode || 500, err.message || err);
     }
 };
 
