@@ -1,0 +1,4 @@
+PORT=5000 // your preferred port
+MONGO_URI='your mongo connection string'
+TEST_MONGO_URI='your test db mongo string'
+NODE_ENV=''

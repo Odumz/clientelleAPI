@@ -1,7 +1,7 @@
 # Clientelle API
 
 ## Overall Objective
-Create restful APIs for practical test for fullstack javascript developer with experience in Vue, Node.js, Express, MongoDB, and Swagger.
+Create restful APIs for a practical test for fullstack javascript developer with experience in Vue, Node.js, Express, MongoDB, and Swagger.
 
 ## Project setup
 

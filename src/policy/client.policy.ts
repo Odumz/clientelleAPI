@@ -36,8 +36,7 @@ const editClient = {
     }),
     body: Joi.object().keys({
         name: Joi.string().min(3),
-        phone: Joi.number()
-            .greater(9999999999),
+        phone: Joi.number().greater(999999999),
         provider: Joi.array().items().min(1).required()
     })
 };
