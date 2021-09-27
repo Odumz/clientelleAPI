@@ -245,6 +245,11 @@ paths:
           required: true
           schema:
             $ref: "#/definitions/Client"
+          example:
+              name: Frances
+              email: c.frances@getter.go
+              phone: 14265789532
+              provider: ['614b7036c9676b3e03e42ea8']
       responses:
         "201":
           description: successful operation
@@ -271,6 +276,8 @@ paths:
           required: true
           schema:
             $ref: "#/definitions/Provider"
+          example:
+              name: Frances
       responses:
         "201":
           description: successful operation
@@ -302,6 +309,10 @@ paths:
           required: true
           schema:
             $ref: "#/definitions/Client"
+          example:
+              name: Frances
+              phone: 14265789532
+              provider: ['614b7036c9676b3e03e42ea8']
       responses:
         "200":
           description: successful operation
@@ -331,6 +342,8 @@ paths:
           required: true
           schema:
             $ref: "#/definitions/Provider"
+          example:
+              name: Frances
       responses:
         "200":
           description: successful operation
