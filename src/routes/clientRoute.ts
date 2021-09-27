@@ -5,16 +5,16 @@ import validate from '../helpers/validate';
 
 const router = express.Router();
 
-router.get('/ping', controller.testCheck);
+router.get('/ping', controller.testCheck); // test route
 
-router.get('/all', controller.getAllClients);
+router.get('/all', controller.getAllClients); // get all clients with conditions
 
-router.get('/:id', validate.validate(clientValidation.getClient), controller.getClientByID);
+router.get('/:id', validate.validate(clientValidation.getClient), controller.getClientByID); // get a client by ID
 
-router.post('/add', validate.validate(clientValidation.addClient), controller.createClient);
+router.post('/add', validate.validate(clientValidation.addClient), controller.createClient); // add a client to the database
 
-router.put('/edit/:id', validate.validate(clientValidation.editClient), controller.updateClient);
+router.put('/edit/:id', validate.validate(clientValidation.editClient), controller.updateClient); // edit a client in the database
 
-router.delete('/delete/:id', validate.validate(clientValidation.deleteClient), controller.deleteClient);
+router.delete('/delete/:id', validate.validate(clientValidation.deleteClient), controller.deleteClient); // delete a client in the database
 
 export = router;

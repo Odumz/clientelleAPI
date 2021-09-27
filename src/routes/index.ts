@@ -4,7 +4,7 @@ import providerRoute from './providerRoute';
 
 const router = express.Router();
 
-router.use('/clients', clientRoute);
-router.use('/providers', providerRoute);
+router.use('/clients', clientRoute); // use the client routes
+router.use('/providers', providerRoute); // use the provider routes
 
 export = router;

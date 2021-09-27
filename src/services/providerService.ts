@@ -1,9 +1,6 @@
 import ApiError from '../helpers/ApiError';
 import { Request } from 'express';
 import Provider from '../models/provider';
-import logging from '../config/logging';
-
-const NAMESPACE = 'service';
 
 const create = async (req: Request) => {
     try {
@@ -69,11 +66,8 @@ const edit = async (providerId: any, req: any) => {
         if (!provider) {
             throw new ApiError(404, 'Provider not found');
         }
-        logging.info(NAMESPACE, 'see provider', provider);
 
         const updatedProvider = await Provider.findById(provider._id)
-
-        logging.info(NAMESPACE, 'see updated provider', updatedProvider);
 
         return JSON.parse(JSON.stringify(updatedProvider));
     } catch (err: any) {
@@ -95,19 +89,10 @@ const remove = async (providerId: any) => {
     }
 };
 
-const count = async (criteria: any = {}) => {
-    try {
-        return await Provider.find(criteria).countDocuments();
-    } catch (err: any) {
-        throw new ApiError(err.statusCode || 500, err.message || err);
-    }
-};
-
 export default {
     create,
     edit,
     listAll,
     listOne,
-    remove,
-    count
+    remove
 };

@@ -1,20 +1,20 @@
 import Joi from 'joi'
 
+// policy to validate get request for a provider
 const getProvider = {
     params: Joi.object().keys({
         id: Joi.string().alphanum().length(24).required()
     })
 };
 
+// policy to validate post request for a provider
 const addProvider = {
     body: Joi.object().keys({
-        name: Joi.string().min(3).required().messages({
-            'string.empty': `Name cannot be an empty field`,
-            'any.required': `Name is a required field`
-        })
+        name: Joi.string().min(3).required()
     })
 };
 
+// policy to validate put request for a provider
 const editProvider = {
     params: Joi.object().keys({
         id: Joi.string().alphanum().length(24).required()
@@ -24,6 +24,7 @@ const editProvider = {
     })
 };
 
+// policy to validate delete request for a provider
 const deleteProvider = {
     params: Joi.object().keys({
         id: Joi.string().alphanum().length(24).required()
