@@ -7,6 +7,7 @@ import provider from './mock/provider'
 
 const NAMESPACE = 'seeder'
 
+// create seedDB function to add the random data to the database
 const seedDB = async () => {
     try {
         logging.info(NAMESPACE, 'Seeding database...')
@@ -16,12 +17,12 @@ const seedDB = async () => {
 
         logging.info(NAMESPACE, 'Creating random providers')
         const fakeProviders = await ProviderModel.create(
-            await provider.seedProviders(7)
+            await provider.seedProviders(7) // edit here to add number of providers you want
         );
 
         logging.info(NAMESPACE, 'Creating random clients')
         const fakeClients = await ClientModel.create(
-            await client.seedClients(10, fakeProviders)
+            await client.seedClients(10, fakeProviders) // edit here to add number of clients you want
         );
 
         logging.info(NAMESPACE, 'Seeding complete')

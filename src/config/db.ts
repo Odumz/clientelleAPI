@@ -16,6 +16,7 @@ const connectDB = async () => {
     }
 };
 
+// clear the database
 const clearDB = async (model: any) => {
     logging.warn(NAMESPACE, 'Clearing database...')
     await Promise.all(
@@ -26,6 +27,7 @@ const clearDB = async (model: any) => {
     await model.deleteMany();
 };
 
+// disconnect from the database
 const disconnectDB = async () => {
     logging.warn(NAMESPACE, 'Disconnecting from database...');
     await mongoose.disconnect();

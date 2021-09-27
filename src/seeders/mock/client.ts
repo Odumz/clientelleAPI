@@ -1,5 +1,6 @@
 import faker from 'faker'
 
+// create seedClients function to add the random clients with random pproviders
 const seedClients = async (numOfClients: number, providers: any) => {
     const clients = [];
 
