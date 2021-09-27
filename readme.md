@@ -27,4 +27,5 @@ Run `npm run test` in the terminal to run the tests.
 - [GitHub](https://github.com/Odumz/clientelleAPI.git)
 - [Swagger Documentation](https://clientelle.herokuapp.com/api-docs)
 - [Demo](https://clientelle.herokuapp.com)
+- [Front-end Demo](https://clientelle.vercel.app)
 - [Postman](https://www.getpostman.com/collections/e10623717c805eca5c0a)
