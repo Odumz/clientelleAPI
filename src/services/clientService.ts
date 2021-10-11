@@ -22,11 +22,20 @@ const create = async (req: Request) => {
 
 const listAll = async (options: any = {}, criteria: any = {}) => {
     try {
-        let sorter = -1;
+        let sorter:number = -1;
+        let sortOption:any = {};
 
+        // sort results with sort option
         if (options.sortBy) {
             const parts = options.sortBy.split(':');
-            sorter = parts[1] === 'asc' ? 1 : -1;
+            sorter = parts[1] === 'asc' ? 1 : 'desc' ? -1 : 1;
+            parts[0] === 'name'
+                ? (sortOption = { name: sorter })
+                : parts[0] === 'email'
+                ? (sortOption = { email: sorter })
+                : parts[0] === 'phone'
+                ? (sortOption = { phone: sorter })
+                : (sortOption = { createdAt: sorter });
         }
 
         if (criteria.name) {
@@ -44,7 +53,7 @@ const listAll = async (options: any = {}, criteria: any = {}) => {
             criteria = { email: { $in: newQuery } };
         }
 
-        const { sort = { createdAt: sorter } } = options;
+        const { sort = sortOption } = options
 
         let clients = await Client.find(criteria)
             .sort(sort)
