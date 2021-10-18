@@ -1,5 +1,5 @@
 import IProvider from '../interfaces/provider';
-import { Schema } from 'mongoose';
+import { model, Schema } from 'mongoose';
 import mongoose from 'mongoose';
 
 const ProviderSchema: Schema = new Schema(
@@ -16,4 +16,4 @@ const ProviderSchema: Schema = new Schema(
     }
 );
 
-export default mongoose.model<IProvider>('provider', ProviderSchema);
+export default model<IProvider>('provider', ProviderSchema);

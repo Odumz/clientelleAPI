@@ -1,8 +1,9 @@
 import ApiError from '../helpers/ApiError';
 import { Request } from 'express';
+import IProvider from 'interfaces/provider';
 import Provider from '../models/provider';
 
-const create = async (req: Request) => {
+const create = async (req: Request): Promise<void> => {
     try {
         const data = req.body;
 
@@ -12,7 +13,7 @@ const create = async (req: Request) => {
             throw new ApiError(409, 'Provider with this name exists');
         }
 
-        const provider = await Provider.create(data);
+        const provider: IProvider = await Provider.create(data);
 
         return JSON.parse(JSON.stringify(provider));
     } catch (err: any) {
@@ -38,7 +39,7 @@ const listAll = async (options: any = {}, criteria: any = {}) => {
 
         const { sort = sortOption } = options;
         
-        let providers = await Provider.find(criteria).sort(sort).select('_id name');
+        let providers: IProvider[] = await Provider.find(criteria).sort(sort).select('_id name');
 
         return JSON.parse(JSON.stringify(providers));
     } catch (err: any) {
@@ -46,10 +47,9 @@ const listAll = async (options: any = {}, criteria: any = {}) => {
     }
 };
 
-const listOne = async (criteria: string) => {
+const listOne = async (criteria: string): Promise<void> => {
     try {
-        const provider = await Provider.findById(criteria)
-            .select('_id name');
+        const provider: IProvider | null = await Provider.findById(criteria).select('_id name');
 
         if (!provider) {
             throw new ApiError(404, 'Provider not found');
@@ -61,15 +61,15 @@ const listOne = async (criteria: string) => {
     }
 };
 
-const edit = async (providerId: any, req: any) => {
+const edit = async (providerId: any, req: any): Promise<void> => {
     try {
-        let provider = await Provider.findByIdAndUpdate(providerId, req.body);
+        let provider: IProvider | null = await Provider.findByIdAndUpdate(providerId, req.body);
 
         if (!provider) {
             throw new ApiError(404, 'Provider not found');
         }
 
-        const updatedProvider = await Provider.findById(provider._id)
+        const updatedProvider = await Provider.findById(provider._id);
 
         return JSON.parse(JSON.stringify(updatedProvider));
     } catch (err: any) {
@@ -77,9 +77,9 @@ const edit = async (providerId: any, req: any) => {
     }
 };
 
-const remove = async (providerId: any) => {
+const remove = async (providerId: any): Promise<void> => {
     try {
-        let provider = await Provider.findByIdAndRemove(providerId);
+        let provider: IProvider | null = await Provider.findByIdAndRemove(providerId);
 
         if (!provider) {
             throw new ApiError(404, 'Provider not found');

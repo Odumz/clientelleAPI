@@ -1,5 +1,5 @@
 import IClient from '../interfaces/client';
-import { Schema } from 'mongoose';
+import { model, Schema } from 'mongoose';
 import mongoose from 'mongoose';
 
 const ClientSchema: Schema = new Schema(
@@ -30,4 +30,4 @@ const ClientSchema: Schema = new Schema(
     }
 );
 
-export default mongoose.model<IClient>('client', ClientSchema);
+export default model<IClient>('client', ClientSchema);

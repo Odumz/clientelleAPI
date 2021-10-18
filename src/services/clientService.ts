@@ -1,8 +1,9 @@
 import ApiError from '../helpers/ApiError';
 import { Request } from 'express';
+import IClient from 'interfaces/client';
 import Client from '../models/client';
 
-const create = async (req: Request) => {
+const create = async (req: Request): Promise<void> => {
     try {
         const data = req.body;
 
@@ -12,7 +13,7 @@ const create = async (req: Request) => {
             throw new ApiError(409, 'Client with this email exists');
         }
 
-        const client = await Client.create(data);
+        const client: IClient = await Client.create(data);
 
         return JSON.parse(JSON.stringify(client));
     } catch (err: any) {
@@ -22,8 +23,8 @@ const create = async (req: Request) => {
 
 const listAll = async (options: any = {}, criteria: any = {}) => {
     try {
-        let sorter:number = -1;
-        let sortOption:any = {};
+        let sorter: number = -1;
+        let sortOption: any = {};
 
         // sort results with sort option
         if (options.sortBy) {
@@ -53,9 +54,9 @@ const listAll = async (options: any = {}, criteria: any = {}) => {
             criteria = { email: { $in: newQuery } };
         }
 
-        const { sort = sortOption } = options
+        const { sort = sortOption } = options;
 
-        let clients = await Client.find(criteria)
+        let clients: IClient[] = await Client.find(criteria)
             .sort(sort)
             .select('name email phone provider')
             .populate({ path: 'provider', model: 'provider', select: ['_id', 'name'] });
@@ -66,9 +67,9 @@ const listAll = async (options: any = {}, criteria: any = {}) => {
     }
 };
 
-const listOne = async (criteria: string) => {
+const listOne = async (criteria: string): Promise<void> => {
     try {
-        const client = await Client.findById(criteria)
+        const client: IClient | null = await Client.findById(criteria)
             .select('name email phone provider')
             .populate({ path: 'provider', model: 'provider', select: ['_id', 'name'] });
 
@@ -82,9 +83,9 @@ const listOne = async (criteria: string) => {
     }
 };
 
-const edit = async (clientId: string, req: any) => {
+const edit = async (clientId: string, req: any): Promise<void> => {
     try {
-        let client = await Client.findByIdAndUpdate(clientId, req.body);
+        let client: IClient | null = await Client.findByIdAndUpdate(clientId, req.body);
 
         if (!client) {
             throw new ApiError(404, 'Client not found');
@@ -98,9 +99,9 @@ const edit = async (clientId: string, req: any) => {
     }
 };
 
-const remove = async (clientId: string) => {
+const remove = async (clientId: string): Promise<void> => {
     try {
-        let client = await Client.findByIdAndRemove(clientId);
+        let client: IClient | null = await Client.findByIdAndRemove(clientId);
 
         if (!client) {
             throw new ApiError(404, 'Client not found');

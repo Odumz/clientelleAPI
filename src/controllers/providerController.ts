@@ -71,7 +71,7 @@ const deleteProvider = catchAsync(async (req: Request, res: Response) => {
     });
 });
 
-export default {
+export {
     testCheck,
     createProvider,
     getAllProviders,
