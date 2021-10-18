@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  ts-node-docker:
+    container_name: ts-node-docker
+    restart: on-failure
+    build:
+      context: .
+      dockerfile: dockerfile
+      target: base
+    volumes:
+      - ./src:/app/src
+    expose:
+      - 5000
+    ports:
+      - "5000:5000"
+    command:
+      npm run dev
